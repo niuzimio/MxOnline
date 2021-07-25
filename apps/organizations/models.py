@@ -1,4 +1,5 @@
 from django.db import models
+from DjangoUeditor.models import UEditorField
 
 from apps.users.models import BaseModel
 
@@ -17,6 +18,8 @@ class City(BaseModel):
 
 class CourseOrg(BaseModel):
     name = models.CharField(max_length=50, verbose_name="机构名称")
+    desc = UEditorField(verbose_name="描述", width=600, height=300, imagePath="courses/ueditor/images/",
+                        filePath="courses/ueditor/files/", default="")
     tag = models.CharField(default="全国知名", max_length=10, verbose_name="机构标签")
     category = models.CharField(default="pxjg", verbose_name="机构类别", max_length=4,
                                 choices=(("pxjg", "培训机构"), ("gr", "个人"), ("gx", "高校")))
@@ -31,6 +34,10 @@ class CourseOrg(BaseModel):
     is_gold = models.BooleanField(default=False, verbose_name="是否金牌")
 
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name="所在城市")
+
+    def courses(self):
+        courses = self.course_set.filter(is_classics=True)[:3]
+        return courses
 
     class Meta:
         verbose_name = "课程机构"
@@ -59,6 +66,9 @@ class Teacher(BaseModel):
     class Meta:
         verbose_name = "教师"
         verbose_name_plural = verbose_name
+
+    def course_nums(self):
+        return self.course_set.all().count()
 
     def __str__(self):
         return self.name

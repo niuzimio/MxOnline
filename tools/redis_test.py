@@ -1,9 +1,10 @@
 import redis
-
-r = redis.Redis(host='localhost', port=6379, db=0, charset="utf8", decode_responses=True )
-
-r.set("mobile", "123")
-r.expire("mobile", 1)
 import time
+r = redis.Redis(host='localhost', port=6379, db=0, charset="utf8", decode_responses=True)
+
+r.set("18829039161", "1234")
+# 设置过期时间
+r.expire('mobile', 60*60)
+
 time.sleep(1)
-print(r.get("mobile"))
+print(r.get("18829039161"))

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'apps.operations.apps.OperationsConfig',
     'xadmin',
     'crispy_forms',
-    'captcha'
+    'captcha',
+    'pure_pagination',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
         },
     },
@@ -132,5 +134,17 @@ STATICFILES_DIRS = [
 # 云片网相关设置
 yp_apikey = "d6c4ddbf50ab36611d2f52041a0b949e"
 
-# MEDIA_URL = "/media/"
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# redis设置
+REDIS_HOST = "127.0.0.1"
+REDIS_PORT = 6379
+
+# 分页相关设置
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 10,
+    'MARGIN_PAGES_DISPLAYED': 2,
+
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
