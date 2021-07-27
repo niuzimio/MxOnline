@@ -41,8 +41,9 @@ class DynamicLoginView(View):
         if request.user.is_authenticated:
             return HttpResponseRedirect(reverse('index'))
         login_form = DynamicLoginForm()
-
-        return render(request, 'login.html', {'login_form': login_form})
+        next = request.GET.get("next", "")
+        return render(request, 'login.html', {'login_form': login_form,
+                                              'next': next})
 
     def post(self, request, *args, **kwargs):
         login_form = DynamicLoginPostForm(request.POST)
@@ -64,7 +65,11 @@ class DynamicLoginView(View):
                 user.mobile = mobile
                 user.save()
             login(request, user)
-            return HttpResponseRedirect(reverse('index'))
+            next = request.GET.get("next", '')
+            if next:
+                return HttpResponseRedirect(next)
+            else:
+                return HttpResponseRedirect(reverse('index'))
         else:
             d_form = DynamicLoginForm()
             return render(request, 'login.html', {'login_form': login_form,
@@ -107,9 +112,12 @@ class LoginView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return HttpResponseRedirect(reverse('index'))
+        next = request.GET.get("next", "")
         login_form = DynamicLoginForm()
 
-        return render(request, 'login.html', {'login_form': login_form})
+        return render(request, 'login.html',
+                      {'login_form': login_form,
+                       'next': next})
 
     def post(self, request, *args, **kwargs):
 
@@ -122,7 +130,11 @@ class LoginView(View):
             user = authenticate(username=user_name, password=password)
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect(reverse('index'))
+                next = request.GET.get("next", '')
+                if next:
+                    return HttpResponseRedirect(next)
+                else:
+                    return HttpResponseRedirect(reverse('index'))
             else:
                 return render(request, 'login.html', {'msg': '用户名或密码错误'})
         else:

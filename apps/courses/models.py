@@ -3,7 +3,7 @@ from django.db import models
 from apps.users.models import BaseModel
 from apps.organizations.models import Teacher
 from apps.organizations.models import CourseOrg
-
+from DjangoUeditor.models import UEditorField
 
 class Course(BaseModel):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name="讲师")
@@ -22,6 +22,8 @@ class Course(BaseModel):
     teacher_tell = models.CharField(default="", max_length=300, verbose_name="老师告诉你")
     is_classics = models.BooleanField(default=False, verbose_name="是否经典")
     is_banner = models.BooleanField(default=False, verbose_name="是否广告位")
+    detail = UEditorField(verbose_name="课程详情", width=600, height=300, imagePath="courses/ueditor/images/",
+                          filePath="courses/ueditor/files/", default="")
     image = models.ImageField(upload_to="courses/%Y/%m", verbose_name="封面图", max_length=100)
 
     class Meta:
@@ -30,6 +32,9 @@ class Course(BaseModel):
 
     def __str__(self):
         return self.name
+
+    def lesson_nums(self):
+        return self.lesson_set.all().count()
 
 
 class CourseTag(BaseModel):
