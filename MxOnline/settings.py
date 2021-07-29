@@ -24,7 +24,7 @@ SECRET_KEY = 'f&i84$(o!@s++ftt7f#1xff&dz)&yqmbv)qa74iwm%)6u!*%0+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -69,13 +69,17 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+                'django.template.context_processors.media',
+                'apps.users.views.message_nums'
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'MxOnline.wsgi.application'
+AUTHENTICATION_BACKENDS = [
+    "apps.users.views.CustomAuth"
+]
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -130,6 +134,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # 云片网相关设置
 yp_apikey = "d6c4ddbf50ab36611d2f52041a0b949e"

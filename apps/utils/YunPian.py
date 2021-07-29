@@ -16,9 +16,9 @@ def send_single_sms(apikey, code, mobile):
     return re_json
 
 
-if __name__ == "__main__":
-    res = send_single_sms("d6c4ddbf50ab36611d2f52041a0b949e", "123456", "15991030771")
-    print(res)
+# if __name__ == "__main__":
+#     res = send_single_sms("d6c4ddbf50ab36611d2f52041a0b949e", "123456", "15991030771")
+#     print(res)
     # import json
     #
     # res_json = json.loads(res.text)

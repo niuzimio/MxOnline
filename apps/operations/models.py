@@ -67,6 +67,8 @@ class UserMessage(BaseModel):
         verbose_name = "用户消息"
         verbose_name_plural = verbose_name
 
+
+
     def __str__(self):
         return self.message
 
